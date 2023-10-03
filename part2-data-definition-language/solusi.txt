@@ -1,34 +1,104 @@
 1) Create database alta_online_shop.
-Sulisi SQL:
+Sulisi SQL: klik kanan pada Databases di bagian kiri, lalu klik 'Create"
 
 2) Dari schema Olshop yang telah kamu kerjakan di, Implementasikanlah menjadi table pada MySQL.
     2.a Create table user
     Sulisi SQL:
+create table pengguna(
+	id serial,
+	nama text,
+	alamat text,
+	tanggal_lahir text,
+	status text,
+	gender text,
+	created_at timestamptz,
+	uploaded_at timestamptz,
+	primary key(id)
+);
 
     2.b Create table product, product_type, product_description, payment_method.
     Sulisi SQL:
+create table product(
+	id serial,
+	nama text,
+	warna text,
+	varian int,
+	detail_product int,
+	primary key(id),
+	foreign key (varian) references product_type (id)
+);
+create table product_type(
+	id int,
+	nama text,
+	primary key (id)
+);
+create table product_description(
+	id int,
+	description text,
+	spesifikasi text
+);
+create table payment_method(
+	id serial,
+	metode_bayar text
+);
 
     3.c Create table transaction, transaction detail.
-    Sulisi SQL:
+    Sulisi SQL: 
+create table transaksi(
+	id serial,
+	id_pembeli int,
+	id_product int,
+	waktu timestamptz,
+	paid_amount int,
+	shipping text,
+	metode_pembayaran int,
+	primary key (id),
+	foreign key (id_pembeli) references pengguna(id),
+	foreign key (id_product) references product(id)
+);
+create table transaksi_detail(
+	id serial,
+	id_transaksi int,
+	id_pembeli int,
+	sub_total int,
+	jumlah int,
+	primary key(id),
+	foreign key (id_transaksi) references transaksi(id),
+	foreign key (id_pembeli) references pengguna(id)
+);
 
 3) Create table kurir dengan field id, name, created_at, updated_at.
 Sulisi SQL:
+create table kurir(
+	id int,
+	name text,
+	created_at timestamptz,
+	uploaded_at timestamptz
+);
 
 4) Tambahkan ongkos_dasar column di tabel kurir.
 Sulisi SQL:
 
+alter table kurir add column ongkos int;
+
 5) Rename tabel kurir menjadi shipping.
 Sulisi SQL:
 
+alter table kurir rename to shipping;
+
+
 6) Hapus / Drop tabel shipping karena ternyata tidak dibutuhkan.
 Sulisi SQL:
+drop table shipping;
 
 7) Silahkan menambahkan entity baru dengan relation 1-to-1, 1-to-many, many-to-many. Seperti:
     7.a) 1-to-1: payment_method dengan description.
-    Sulisi SQL:
+    Sulisi SQL: foreign key (id) references product_description(id)
 
     7.b) 1-to-many: user dengan alamat.
-    Sulisi SQL:
+    Sulisi SQL: Buka tab Tools di atas kiri, pilih ERD lalu pada opsi pilihan mengelola data klik simbol "1M", klik user (id) lalu tarik garis ke user (alamat)
 
     7.c) many-to-many: user dengan payment_method menjadi user_payment_method_detail.
-    Sulisi SQL:
+    Sulisi SQL: Buka tab Tools di atas kiri, pilih ERD lalu pada opsi pilihan mengelola data klik simbol "MM", klik user (id) lalu tarik garis ke payment_method_pengguna (id)
+
+

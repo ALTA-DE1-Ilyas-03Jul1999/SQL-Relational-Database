@@ -3,56 +3,246 @@ RELEASE 1:
 1) Insert
     1.a) Insert 3 product type.
 
+insert into product_type (id, nama) values
+	(1, '2 giga'),
+	(2, '4 giga'),
+	(3, '8 giga');
+
     1.b) Insert 2 product dengan product type id = 1
+
+insert into product (nama, varian) values
+	('samsung01', 2),
+	('samsung02', 3),
+	('samsung03', 2),
+	('samsung04', 1),
+	('samsung 05', 1),
+	('samsung 06', 1),
+	('samsung 07', 3),
+	('samsung 08', 2);
+	
 
     1.c) Insert 3 product dengan product type id = 2
 
+insert into product (nama, varian) values
+	('samsung01', 2),
+	('samsung02', 3),
+	('samsung03', 2),
+	('samsung04', 1),
+	('samsung 05', 1),
+	('samsung 06', 1),
+	('samsung 07', 3),
+	('samsung 08', 2);
+	
+
     1.d) Insert 3 product dengan product type id = 3
 
-    1.e) Insert product description pada setiap product.
+insert into product (nama, varian) values
+	('samsung01', 2),
+	('samsung02', 3),
+	('samsung03', 2),
+	('samsung04', 1),
+	('samsung 05', 1),
+	('samsung 06', 1),
+	('samsung 07', 3),
+	('samsung 08', 2);
+	
+
+    1.e) Insert product description pada setiap product
+
+alter table product_description add column nama_product text;
+insert into product_description (description, nama_product) values
+	('bagus', 'samsung01'),
+	('baru', 'samsung02'),
+	('bagus','samsung03'),
+	('bagus','samsung04'),
+	('bekas','samsung 05'),
+	('bekas','samsung 06'),
+	('baru','samsung 07'),
+	('baru','samsung 08');
+
 
     1.f) Insert 3 payment methods.
 
+insert into payment_method (metode_bayar) values
+	('qris'),
+	('virtual  bank'),
+	('bayar di mini market');
+
     1.g) Insert 5 user pada tabel user.
+
+insert into pengguna (nama, alamat, status, gender, created_at) values
+	('dodi', 'bekasi', 'aktif', 'pria','2023-09-02T04:52:35+07:00'),
+	('muhmad', 'jakarta', 'dua hari lalu', 'pria', '2023-09-06T10:44:50+07:00'),
+	('kinay', 'bandung', 'seminggu lalu', 'wanita','2023-09-03T22:08:22+07:00'),
+	('putri', 'cianjur', 'aktif', 'wanita', '2023-09-03T16:45:45+07:00'),
+	('aca', 'jakarta', 'sebulan lalu', 'wanita', '2023-09-02T15:05:54+07:00');
+
 
     1.h) Insert 3 transaksi di masing-masing user (min 3 user). (soal berlanjut ke soal 1.j)
 
+insert into transaksi(id_pembeli, id_product, paid_amount) values
+	(2, 3, 1000000),
+	(4, 7, 5000000),
+	(4, 8, 7000000),
+	(1, 1, 4000000),
+	(1, 2, 2000000),
+	(1, 3, 1000000),
+	(5, 8, 10000000),
+	(5, 7, 5000000),
+	(2, 5, 4500000),
+	(2, 6, 6000000),
+	(3, 2, 2000000);
+
     1.i) Insert 3 product di masing-masing transaksi.
+
+insert into transaksi(id_pembeli, id_product, paid_amount) values
+	(2, 3, 1000000),
+	(4, 7, 5000000),
+	(4, 8, 7000000),
+	(1, 1, 4000000),
+	(1, 2, 2000000),
+	(1, 3, 1000000),
+	(5, 8, 10000000),
+	(5, 7, 5000000),
+	(2, 5, 4500000),
+	(2, 6, 6000000),
+	(3, 2, 2000000);
 
 2) Select
     2.a) Tampilkan nama user / pelanggan dengan gender Laki-laki / M.
 
+select * from pengguna where gender ='pria';
+
+
     2.b) Tampilkan product dengan id = 3.
+
+select * from product where id = 3;
+
 
     2.c) Tampilkan data pelanggan yang created_at dalam range 7 hari kebelakang dan mempunyai nama mengandung kata ‘a’.
 
+select * from pengguna where created_at > CURRENT_DATE - INTERVAL '7days';
+select * from pengguna where nama like '%a%'
+
     2.d) Hitung jumlah user / pelanggan dengan status gender Perempuan.
+
+select * from pengguna sum(nama) where gender ='wanita';
+
 
     2.e) Tampilkan data pelanggan dengan urutan sesuai nama abjad
 
+select * from pengguna order by nama asc;
+
+
     2.f) Tampilkan 5 data transaksi dengan product id = 3
+
+select * from transaksi where id_product = 3 limit 5;
+
 
 3. Update
     3.a) Ubah data product id 1 dengan nama ‘product dummy’.
 
+update product set nama = 'product dummy' where id = 1;
+
+
     3.b) Update qty = 3 pada transaction detail dengan product id 1.
+
+alter table transaksi_detail add column id_product int;
+insert into transaksi_detail (id_transaksi, id_pembeli, id_product, jumlah) values
+	(1, 2, 3, 2),
+	(2, 4, 7, 3),
+	(3, 4, 8, 2),
+	(4, 1, 1, 1),
+	(5, 1, 2, 2),
+	(6, 1, 3, 1),
+	(7, 5, 8, 1),
+	(8, 5, 7, 2),
+	(9, 2, 5, 4),
+	(10, 2, 6, 1),
+	(11, 3, 2, 2),
+	(12, 2, 3, 1),
+	(13, 4, 7, 1),
+	(14, 4, 8, 3),
+	(15, 1, 1, 1),
+	(16, 1, 2, 1),
+	(17, 1, 3, 2),
+	(18, 5, 8, 1),
+	(19, 5, 7, 1),
+	(20, 2, 6, 1),
+	(21, 2, 6, 2),
+	(22, 3, 2, 3);
+	
+update transaksi_detail set jumlah = 3 where id_product = 1;
+
+
+
 
 4. Delete
     4.a) Delete data pada tabel product dengan id 1.
 
+alter table transaksi drop constraint transaksi_id_product_fkey;
+delete from product where id = 1;
+
     4.b) Delete pada tabel product dengan product-type id 1.
+
+select * from product;
+delete from product where varian = 1;
 
 
 RELEASE 2: Join, Union, Sub-query, Function
 
 1. Gabungkan data transaksi dari user id 1 dan user id 2.
 
+
+select pengguna.id as nomor, nama, alamat, status, gender, created_at
+from transaksi 
+join pengguna on transaksi.id_pembeli = pengguna.id
+where id_pembeli <= 2;
+select * from transaksi where id_pembeli <= 2;
+
+
 2. Tampilkan jumlah harga transaksi user id 1.
+
+select pengguna.id as id_pembeli, sum(paid_amount)
+from transaksi
+join pengguna on transaksi.id_pembeli = pengguna.id
+where id_pembeli =1 group by nomor;
 
 3. Tampilkan total transaksi dengan product type 2.
 
+select pengguna.id as nomor, count(1)
+from transaksi
+join pengguna on transaksi.id_pembeli = pengguna.id
+where id_pembeli = 2 group by nomor;
+
 4. Tampilkan semua field table product dan field name table product type yang saling berhubungan.
+
+select * from product;
+select * from product_type;
+
+
+select product.id, product.nama as product, varian, product_type.nama as spek
+from product
+join product_type on product.varian = product_type.id;
+
 
 5. Tampilkan semua field table transaction, field name table product dan field name table user.
 
+select *
+from transaksi
+join product on product.id = transaksi.id_product
+join pengguna on pengguna.id = transaksi.id_pembeli;
+
+
+
 6. Tampilkan data products yang tidak pernah ada di tabel transaction_details dengan sub-query.
+
+select * from transaksi_detail;
+select * from product;
+
+select * from transaksi_detail where id_product not in (select id from product) order by id;
+
+select * from product where id not in (select id_product from transaksi_detail) order by id;
+
+
+-- id_product 4 memang tidak pernah ada, id_product 5 dan 6 menjadi data tapi tidak ada di product
